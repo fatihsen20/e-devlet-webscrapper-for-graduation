@@ -8,6 +8,7 @@ import time
 from dotenv import load_dotenv
 from mail_send import send_mail
 from webdriver_manager.chrome import ChromeDriverManager
+from webdriver_manager.firefox import GeckoDriverManager
 
 load_dotenv()
 
@@ -20,9 +21,14 @@ def main():
     chrome_options.add_argument("--window-size=%s" % WINDOW_SIZE)
     chrome_options.add_argument('--disable-dev-shm-usage')
 
-    # driver = webdriver.Chrome(options=chrome_options)
-    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
+    firefox_options = webdriver.FirefoxOptions()
+    firefox_options.add_argument("--headless")
+    firefox_options.add_argument("--window-size=%s" % WINDOW_SIZE)
+    firefox_options.add_argument('--disable-dev-shm-usage')
 
+    # driver = webdriver.Chrome(options=chrome_options)
+    # driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
+    driver = webdriver.Firefox(service=Service(GeckoDriverManager().install()), options=firefox_options)
     driver.get("https://giris.turkiye.gov.tr/Giris/gir")
     
 
