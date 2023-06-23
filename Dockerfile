@@ -2,8 +2,6 @@ FROM python:3.11-slim-buster
 
 WORKDIR /app
 
-# Gerekli paketleri yükleyin
-
 RUN apt-get update && apt-get install -y \
     python3 \
     python3-pip \
@@ -29,20 +27,12 @@ RUN apt-get update && apt-get install -y \
     libxrandr2 \
     xdg-utils \
     libu2f-udev \
-    # libcurl3 \
     libcurl3-gnutls \
     libcurl3-nss \
     libcurl4 \
     libvulkan1 \
     build-essential \
     && rm -rf /var/lib/apt/lists/*
-
-# RUN apt-get update && apt-get install -y \
-#     wget \
-#     fonts-liberation \
-#     libasound2 \
-#     build-essential \
-#     && rm -rf /var/lib/apt/lists/*
 
 RUN wget -q https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 
@@ -51,8 +41,5 @@ RUN dpkg -i ./google-chrome-stable_current_amd64.deb
 COPY . .
 
 RUN pip install --upgrade pip && pip install --no-cache-dir -r requirements.txt
-# Uygulama kodunuzu kopyalayın
 
-
-# Docker konteynırının nasıl başlatılacağını belirtin
 CMD [ "python", "./bot.py" ]

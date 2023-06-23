@@ -3,25 +3,35 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import sys
 
-def send_mail(from_mail, password, to_mail, subject, message):
+def send_mail(from_mail, password, to_mail, subject, message_):
+    """
+    This function sends mail.
+
+    Args:
+        from_mail (str): Sender mail address.
+        password (str): Sender mail password.
+        to_mail (str): Receiver mail address.
+        subject (str): Mail subject.
+        message_ (str): Mail message.
+    """
     try:
         mail = smtplib.SMTP("smtp.gmail.com",587)
         mail.ehlo()
         mail.starttls()
         mail.login(from_mail, password)
 
-        mesaj = MIMEMultipart()
-        mesaj["From"] = from_mail  
-        mesaj["Subject"] = subject
-        mesaj["To"] = to_mail
-        body = message
+        message = MIMEMultipart()
+        message["From"] = from_mail  
+        message["Subject"] = subject
+        message["To"] = to_mail
+        body = message_
 
         body_text = MIMEText(body, "plain")
-        mesaj.attach(body_text)
+        message.attach(body_text)
 
-        mail.sendmail(mesaj["From"], mesaj["To"], mesaj.as_string())
-        print("Mail başarılı bir şekilde gönderildi.")
+        mail.sendmail(message["From"], message["To"], message.as_string())
+        print("Mail delivery is successful.")
         mail.close()
 
     except:
-        print("Hata:", sys.exc_info()[0])
+        print("Exception:", sys.exc_info()[0])
